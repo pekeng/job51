@@ -230,6 +230,7 @@ def job51(vip_name, user_name, user_password,dama_user_name,dama_password,dama_i
                         hidcheckuserids1 = None
                 # 请求每一个人的简历
                 if all_url_list:
+                    data_dict_list = []
                     print(all_url_list)
                     # url去重
                     all_url_list = list(set(all_url_list))
@@ -263,113 +264,137 @@ def job51(vip_name, user_name, user_password,dama_user_name,dama_password,dama_i
                                     print(update_time, seek_name, tag, telephone, mail, gender, age_birthday,
                                           now_address, work_experience)
                                     recent_work_time = "".join(user_resume_response.xpath(
-                                        '//td[@class="plate2"]/span[@class="normal"]/text()')).strip()
+                                        '//td[@class="plate2"]/span[@class="normal"]/text()')).strip().replace(" ", "")
                                     position = "".join(user_resume_response.xpath(
-                                        '//table/tbody/tr[2]/td[@class="txt2"]/text()')[0]).strip()
+                                        '//table/tbody/tr[2]/td[@class="txt2"]/text()')[0]).strip().replace(" ", "")
                                     professional = "".join(user_resume_response.xpath(
-                                        '//table/tbody/tr[2]/td[@class="txt2"]/text()')[-1]).strip()
+                                        '//table/tr[2]/td[@class="txt2"]/text()')[-1]).strip().replace(" ", "")
                                     company = "".join(user_resume_response.xpath(
-                                        '//table/tbody/tr[3]/td[@class="txt2"]/text()')[0]).strip()
+                                        '//table/tbody/tr[3]/td[@class="txt2"]/text()')[0]).strip().replace(" ", "")
                                     school = "".join(user_resume_response.xpath(
-                                        '//table/tbody/tr[3]/td[@class="txt2"]/text()')[-1]).strip()
+                                        '//table/tr[3]/td[@class="txt2"]/text()')[-1]).strip().replace(" ", "")
                                     industry = "".join(user_resume_response.xpath(
-                                        '//table/tbody/tr[4]/td[@class="txt2"]/text()')[0]).strip()
+                                        '//table/tbody/tr[4]/td[@class="txt2"]/text()')[0]).strip().replace(" ", "")
                                     edu_background = "".join(user_resume_response.xpath(
-                                        '//table/tbody/tr[4]/td[@class="txt2"]/text()')[-1]).strip()
+                                        '//table/tr[4]/td[@class="txt2"]/text()')[-1]).strip().replace(" ", "")
                                     print("最近工作!!!{}")
                                     print(recent_work_time, position, professional, company, school,
                                           industry, edu_background, )
-                                    # 个人信息
-                                    nationality = "".join(user_resume_response.xpath(
-                                        '//*[@id="divInfo"]/td/table[1]/tbody/tr[2]/td/table/tbody/tr[1]/td/table/tbody/tr/td[2]/text()')).strip()
-                                    mari_status = "".join(user_resume_response.xpath(
-                                        '//*[@id="divInfo"]/td/table[1]/tbody/tr[2]/td/table/tbody/tr[2]/td/table/tbody/tr/td[2]/text()')).strip()
-                                    home_address = "".join(user_resume_response.xpath(
-                                        '//*[@id="divInfo"]/td/table[1]/tbody/tr[2]/td/table/tbody/tr[3]/td[1]/table/tbody/tr/td[2]/text()')).strip()
-                                    political_status = "".join(user_resume_response.xpath(
-                                        '//*[@id="divInfo"]/td/table[1]/tbody/tr[2]/td/table/tbody/tr[3]/td[2]/table/tbody/tr/td[2]/text()')).strip()
+                                    data_dict = {  "update_time":update_time,
+                                                    "seek_name":update_time,
+                                                    "tag":seek_name,
+                                                    "telephone":tag,
+                                                    "mail":telephone,
+                                                    "gender":mail,
+                                                    "age_birthday":gender,
+                                                    "now_address":age_birthday,
+                                                    "work_experience":now_address,
+                                                    "recent_work_time":work_experience,
+                                                    "position":recent_work_time,
+                                                    "professional":position,
+                                                    "company":professional,
+                                                    "school":company,
+                                                    "industry":school,
+                                                    "edu_background":industry,
+                                                   }
 
-                                    # 目前收入
-                                    now_income = "".join(user_resume_response.xpath(
-                                        '//*[@id="divInfo"]/td/table[2]/tbody/tr[1]/td/span[@class="f16"]/text()')).strip()
-                                    print(nationality,mari_status,home_address,political_status)
-                                    if now_income:
-                                        # 求职意向
-                                        job_intention="".join(user_resume_response.xpath(
-                                        '//*[@id="divInfo"]/td/table[3]/tbody/tr[2]/td/table/tbody/tr/td[1]/table/tbody/tr/td/text()')).strip()
-                                        # 工作经验
-                                        work_experience_detail="".join(user_resume_response.xpath(
-                                        '//*[@id="divInfo"]/td/table[4]/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/text()')).strip()
-                                        # 项目经验
-                                        project_experience="".join(user_resume_response.xpath(
-                                        '//*[@id="divInfo"]/td/table[5]/tbody/tr/td/table/tbody/tr/td/table/tbody/tr\
-                                        /td/text()|\//*[@id="divInfo"]/td/table[5]/tbody/tr/td/table/tbody/tr/td/table\
-                                        /tbody/tr/td/strong/text()|//*[@id="divInfo"]/td/table[5]/tbody/tr[2]/td/table\
-                                        /tbody/tr[1]/td/table/tbody/tr/td/table/tbody/tr/td/text()')).strip()
-                                        #教育经历
-                                        edu_experience="".join(user_resume_response.xpath(
-                                        '//*[@id="divInfo"]/td/table[last()-3]/tbody/tr[2]/td/table/tbody/tr/td/table\
-                                        /tbody/tr/td/text()|//*[@id="divInfo"]/td/table[last()-3]/tbody/tr[2]/td/table\
-                                        /tbody/tr/td/table/tbody/tr/td/strong/text()|//*[@id="divInfo"]/td/table[last()-2]\
-                                        /tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody\
-                                        /tr/td/text()')).strip()
-                                        if edu_experience:
-                                            pass
-                                        else:
-                                            edu_experience = "".join(user_resume_response.xpath(
-                                                '//*[@id="divInfo"]/td/table[last()-2]/tbody/tr[2]/td/table/tbody/tr/td/table\
-                                                /tbody/tr/td/text()|//*[@id="divInfo"]/td/table[last()-2]/tbody/tr[2]/td/table\
-                                                /tbody/tr/td/table/tbody/tr/td/strong/text()|//*[@id="divInfo"]/td/table[last()-2]\
-                                                /tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody\
-                                                /tr/td/text()')).strip()
-                                        # 技能特长
-                                        skills="".join(user_resume_response.xpath(
-                                            '//td[@class="skill"]/strong/text()|//td[@valign="top"]/span[@class="skbg"]/span/text()\
-                                            |//*[@id="divInfo"]/td/table[7]/tbody/tr[2]/td/table/tbody/tr[4]/td/table/tbody/tr/td/table/tbody/tr/td/text()')).strip()
-                                    else:
-                                        # 求职意向
-                                        job_intention_json = "".join(user_resume_response.xpath(
-                                            '//*[@id="divInfo"]/td/table[2]/tbody/tr[2]/td/table/tbody/tr/td[1]/table/tbody/tr/td/text()')).strip()
-                                        # 工作经验
-                                        work_experience_detail = "".join(user_resume_response.xpath(
-                                            '//*[@id="divInfo"]/td/table[3]/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/text()')).strip()
-                                        # 项目经验
-                                        project_experience = "".join(user_resume_response.xpath(
-                                            '//*[@id="divInfo"]/td/table[4]/tbody/tr/td/table/tbody/tr/td/table/tbody/tr\
-                                            /td/text()|\//*[@id="divInfo"]/td/table[4]/tbody/tr/td/table/tbody/tr/td/table\
-                                            /tbody/tr/td/strong/text()|//*[@id="divInfo"]/td/table[4]/tbody/tr[2]/td/table\
-                                            /tbody/tr[1]/td/table/tbody/tr/td/table/tbody/tr/td/text()')).strip()
-                                        # 教育经历
-                                        edu_experience = "".join(user_resume_response.xpath(
-                                            '//*[@id="divInfo"]/td/table[last()-3]/tbody/tr[2]/td/table/tbody/tr/td/table\
-                                            /tbody/tr/td/text()|//*[@id="divInfo"]/td/table[last()-3]/tbody/tr[2]/td/table\
-                                            /tbody/tr/td/table/tbody/tr/td/strong/text()|//*[@id="divInfo"]/td/table[last()-2]\
-                                            /tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody\
-                                            /tr/td/text()')).strip()
-                                        if edu_experience:
-                                            pass
-                                        else:
-                                            edu_experience = "".join(user_resume_response.xpath(
-                                                '//*[@id="divInfo"]/td/table[last()-2]/tbody/tr[2]/td/table/tbody/tr/td/table\
-                                                /tbody/tr/td/text()|//*[@id="divInfo"]/td/table[last()-2]/tbody/tr[2]/td/table\
-                                                /tbody/tr/td/table/tbody/tr/td/strong/text()|//*[@id="divInfo"]/td/table[last()-2]\
-                                                /tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody\
-                                                /tr/td/text()')).strip()
-                                            # 技能特长
-                                            skills = "".join(user_resume_response.xpath(
-                                                '//*[@id="divInfo"]/td/table[8]/tbody/tr[2]/td/table/tbody/tr/td/text()\
-                                                |//*[@id="divInfo"]/td/table[8]/tbody/tr[2]/td/table/tbody/tr[2]/td/table\
-                                                /tbody/tr/td/table/tbody/tr/td/table/tbody/tr/td[1]/strong/text()|')).strip()
+                                    data_dict_list.append(data_dict)
+
+                                    # # 个人信息
+                                    # nationality = "".join(user_resume_response.xpath(
+                                    #     '//*[@id="divInfo"]/td/table[1]/tbody/tr[2]/td/table/tbody/tr[1]/td/table/tbody/tr/td[2]/text()')).strip()
+                                    # mari_status = "".join(user_resume_response.xpath(
+                                    #     '//*[@id="divInfo"]/td/table[1]/tbody/tr[2]/td/table/tbody/tr[2]/td/table/tbody/tr/td[2]/text()')).strip()
+                                    # home_address = "".join(user_resume_response.xpath(
+                                    #     '//*[@id="divInfo"]/td/table[1]/tbody/tr[2]/td/table/tbody/tr[3]/td[1]/table/tbody/tr/td[2]/text()')).strip()
+                                    # political_status = "".join(user_resume_response.xpath(
+                                    #     '//*[@id="divInfo"]/td/table[1]/tbody/tr[2]/td/table/tbody/tr[3]/td[2]/table/tbody/tr/td[2]/text()')).strip()
+                                    #
+                                    # # 目前收入
+                                    # now_income = "".join(user_resume_response.xpath(
+                                    #     '//*[@id="divInfo"]/td/table[2]/tbody/tr[1]/td/span[@class="f16"]/text()')).strip()
+                                    # # print(nationality,mari_status,home_address,political_status)
+                                    # if now_income:
+                                    #     # 求职意向
+                                    #     job_intention="".join(user_resume_response.xpath(
+                                    #     '//*[@id="divInfo"]/td/table[3]/tbody/tr[2]/td/table/tbody/tr/td[1]/table/tbody/tr/td/text()')).strip()
+                                    #     # 工作经验
+                                    #     work_experience_detail="".join(user_resume_response.xpath(
+                                    #     '//*[@id="divInfo"]/td/table[4]/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/text()')).strip()
+                                    #     # 项目经验
+                                    #     project_experience="".join(user_resume_response.xpath(
+                                    #     '//*[@id="divInfo"]/td/table[5]/tbody/tr/td/table/tbody/tr/td/table/tbody/tr\
+                                    #     /td/text()|\//*[@id="divInfo"]/td/table[5]/tbody/tr/td/table/tbody/tr/td/table\
+                                    #     /tbody/tr/td/strong/text()|//*[@id="divInfo"]/td/table[5]/tbody/tr[2]/td/table\
+                                    #     /tbody/tr[1]/td/table/tbody/tr/td/table/tbody/tr/td/text()')).strip()
+                                    #     #教育经历
+                                    #     edu_experience="".join(user_resume_response.xpath(
+                                    #     '//*[@id="divInfo"]/td/table[last()-3]/tbody/tr[2]/td/table/tbody/tr/td/table\
+                                    #     /tbody/tr/td/text()|//*[@id="divInfo"]/td/table[last()-3]/tbody/tr[2]/td/table\
+                                    #     /tbody/tr/td/table/tbody/tr/td/strong/text()|//*[@id="divInfo"]/td/table[last()-2]\
+                                    #     /tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody\
+                                    #     /tr/td/text()')).strip()
+                                    #     if edu_experience:
+                                    #         pass
+                                    #     else:
+                                    #         edu_experience = "".join(user_resume_response.xpath(
+                                    #             '//*[@id="divInfo"]/td/table[last()-2]/tbody/tr[2]/td/table/tbody/tr/td/table\
+                                    #             /tbody/tr/td/text()|//*[@id="divInfo"]/td/table[last()-2]/tbody/tr[2]/td/table\
+                                    #             /tbody/tr/td/table/tbody/tr/td/strong/text()|//*[@id="divInfo"]/td/table[last()-2]\
+                                    #             /tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody\
+                                    #             /tr/td/text()')).strip()
+                                    #     # 技能特长
+                                    #     skills="".join(user_resume_response.xpath(
+                                    #         '//td[@class="skill"]/strong/text()|//td[@valign="top"]/span[@class="skbg"]/span/text()\
+                                    #         |//*[@id="divInfo"]/td/table[7]/tbody/tr[2]/td/table/tbody/tr[4]/td/table/tbody/tr/td/table/tbody/tr/td/text()')).strip()
+                                    # else:
+                                    #     # 求职意向
+                                    #     job_intention_json = "".join(user_resume_response.xpath(
+                                    #         '//*[@id="divInfo"]/td/table[2]/tbody/tr[2]/td/table/tbody/tr/td[1]/table/tbody/tr/td/text()')).strip()
+                                    #     # 工作经验
+                                    #     work_experience_detail = "".join(user_resume_response.xpath(
+                                    #         '//*[@id="divInfo"]/td/table[3]/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/text()')).strip()
+                                    #     # 项目经验
+                                    #     project_experience = "".join(user_resume_response.xpath(
+                                    #         '//*[@id="divInfo"]/td/table[4]/tbody/tr/td/table/tbody/tr/td/table/tbody/tr\
+                                    #         /td/text()|\//*[@id="divInfo"]/td/table[4]/tbody/tr/td/table/tbody/tr/td/table\
+                                    #         /tbody/tr/td/strong/text()|//*[@id="divInfo"]/td/table[4]/tbody/tr[2]/td/table\
+                                    #         /tbody/tr[1]/td/table/tbody/tr/td/table/tbody/tr/td/text()')).strip()
+                                    #     # 教育经历
+                                    #     edu_experience = "".join(user_resume_response.xpath(
+                                    #         '//*[@id="divInfo"]/td/table[last()-3]/tbody/tr[2]/td/table/tbody/tr/td/table\
+                                    #         /tbody/tr/td/text()|//*[@id="divInfo"]/td/table[last()-3]/tbody/tr[2]/td/table\
+                                    #         /tbody/tr/td/table/tbody/tr/td/strong/text()|//*[@id="divInfo"]/td/table[last()-2]\
+                                    #         /tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody\
+                                    #         /tr/td/text()')).strip()
+                                    #     if edu_experience:
+                                    #         pass
+                                    #     else:
+                                    #         edu_experience = "".join(user_resume_response.xpath(
+                                    #             '//*[@id="divInfo"]/td/table[last()-2]/tbody/tr[2]/td/table/tbody/tr/td/table\
+                                    #             /tbody/tr/td/text()|//*[@id="divInfo"]/td/table[last()-2]/tbody/tr[2]/td/table\
+                                    #             /tbody/tr/td/table/tbody/tr/td/strong/text()|//*[@id="divInfo"]/td/table[last()-2]\
+                                    #             /tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody\
+                                    #             /tr/td/text()')).strip()
+                                    #         # 技能特长
+                                    #         skills = "".join(user_resume_response.xpath(
+                                    #             '//*[@id="divInfo"]/td/table[8]/tbody/tr[2]/td/table/tbody/tr/td/text()\
+                                    #             |//*[@id="divInfo"]/td/table[8]/tbody/tr[2]/td/table/tbody/tr[2]/td/table\
+                                    #             /tbody/tr/td/table/tbody/tr/td/table/tbody/tr/td[1]/strong/text()|')).strip()
                                 except Exception as e:
                                     print("请求简历出错{}".format(e))
+                    return data_dict_list
+                else:
+                    return
             else:
                 print("请在浏览器上强制先下线再登陆！！")
+                return
         else:
             print("用户{}登陆失败！请检查账号密码是否错误！".format(user_name))
+            return
     else:
         print("打码平台错误{}!请检查充值！".format(chaojiying_response))
+        return
 
 
-if __name__ == '__main__':
-    job51(vip_name="", user_name="", user_password="",
-          dama_user_name="",dama_password="",dama_id="") # 用户中心>>软件ID 生成一个替换 96001
+
